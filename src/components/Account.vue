@@ -29,7 +29,7 @@
                     <th>Valor</th>
                     <th>Nota</th>
                 </tr>
-                <tr v-for="transaction in transactionsByUsername" :key="transaction.id">
+                <tr v-for="transaction in transactionByUsername" :key="transaction.id">
                     <td>{{ transaction.date.substring(0,10) }}</td>
                     <td>{{ transaction.date.substring(11,19) }}</td>
                     <td>{{ transaction.usernameOrigin }}</td>
@@ -51,7 +51,7 @@
         data: function(){
             return {
                 username: localStorage.getItem("username") || "none",
-                transactionsByUsername: [],
+                transactionByUsername: [],
                 accountByUsername: {
                     balance    : 0,
                     lastChange : ""
@@ -60,10 +60,10 @@
         },
 
         apollo: {
-            transactionsByUsername: {
+            transactionByUsername: {
                 query: gql`
                     query Query($username: String!) {
-                      transactionsByUsername(username: $username) {
+                      transactionByUsername(username: $username) {
                         id
                         usernameOrigin
                         usernameDestiny
@@ -98,7 +98,7 @@
         },
 
         created: function(){
-            this.$apollo.queries.transactionsByUsername.refetch();
+            this.$apollo.queries.transactionByUsername.refetch();
             this.$apollo.queries.accountByUsername.refetch();
         }
     }

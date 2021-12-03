@@ -61,6 +61,7 @@
                     localStorage.setItem("tokenAccess", result.data.refreshToken.access);
                 })
                 .catch((error) => {
+                    console.log(error);
                     this.$emit("logOut");
                     return;
                 });
