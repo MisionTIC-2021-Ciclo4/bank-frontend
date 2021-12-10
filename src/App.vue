@@ -1,7 +1,28 @@
 <template>
+<!--
+#    src/App.vue is part of "Demo MisionTIC-2021 C4 - WebFrontend", 
+#    created by Carlos Andrés Sierra.
+#
+#    "Demo MisionTIC-2021 C4 - WebFrontend" is free software: 
+#    you can redistribute it and/or modify it under the terms of the 
+#    GNU General Public License as published by the Free Software Foundation, 
+#    either version 3 of the License, or (at your option) any later version.
+#
+#    "Demo MisionTIC-2021 C4 - WebFrontend" is distributed in 
+#    the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+#    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+#    PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with "Demo MisionTIC-2021 C4 - WebFrontend". 
+#    If not, see <https://www.gnu.org/licenses/>.
+#
+#    For contact, you can write to casierrav@unal.edu.co
+-->
+
   <div id="app" class="app">
     <div class="header">
-      <h1>Banco<br />MT2021-C4P5</h1>
+      <h1>Banco<br />MT2021-C4</h1>
       <nav>
         <button v-if="isAuth" v-on:click="loadHome"> Inicio </button>
         <button v-if="isAuth" v-on:click="loadAccount"> Cuenta </button>
@@ -17,13 +38,14 @@
       <router-view
         v-on:completedLogIn="completedLogIn"
         v-on:completedSignUp="completedSignUp"
+        v-on:completedTransaction="completedTransaction"
         v-on:logOut="logOut"
       >
       </router-view>
     </div>
 
     <div class="footer">
-      <h2>MisionTic 2021 - C4P5 Course</h2>
+      <h2>MisionTic 2022 - C4</h2>
     </div>
   </div>
 </template>
@@ -33,26 +55,18 @@
   export default{
     name: 'App',
 
-    data: function(){
-      return {
-        isAuth: false
+    computed: {
+      isAuth: {
+        get: function() {
+          return this.$route.meta.requiresAuth;
+        },
+        set: function() {
+
+        }
       }
     },
 
-    components:{
-    },
-
     methods:{
-      verifyAuth: function(){
-        this.isAuth = localStorage.getItem("isAuth") || false;
-        if(this.isAuth == false){
-          this.$router.push({name: "login"})
-        }
-        else{
-          this.$router.push({name: "home"});
-        }
-      },
-      
       loadHome: function(){
         this.$router.push({name: "home"});
       },
@@ -68,7 +82,7 @@
       logOut: function(){
         localStorage.clear();
         alert("Sesión terminada");
-        this.verifyAuth();
+        this.loadLogIn();
       },
 
       loadLogIn: function(){
@@ -83,20 +97,21 @@
         localStorage.setItem('username', data.username);
         localStorage.setItem('tokenRefresh', data.tokenRefresh);
         localStorage.setItem('tokenAccess', data.tokenAccess);
-        localStorage.setItem('isAuth', true);
         alert("Autenticación exitosa");
-        this.verifyAuth();
+        this.loadHome();
       },
 
       completedSignUp: function(data){
         alert("Registro exitoso");
         this.completedLogIn(data);
       },
-      
+
+      completedTransaction: function(){
+        this.loadAccount();
+      },
     },
 
     created: function(){
-      this.verifyAuth();
     }
   }
 </script>
@@ -172,4 +187,4 @@
     justify-content: center;
     align-items: center;
   }
-</style>
+</style>s
