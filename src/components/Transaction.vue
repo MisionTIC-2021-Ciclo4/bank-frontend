@@ -152,14 +152,14 @@
             },
 
             filterResults: function() {
-                this.results = this.userOtherAccounts.filter(item => item.username.toLowerCase().indexOf(this.createTransaction.usernameDestiny.toLowerCase()) > -1);
+                this.results = this.userOtherAccounts.filter(item => item.username.toLowerCase().indexOf(this.transaction.usernameDestiny.toLowerCase()) > -1);
             },
             onChange() {
                 this.filterResults();
                 this.isOpen = true;
             },
             setResult(result) {
-              this.createTransaction.usernameDestiny = result.username;
+              this.transaction.usernameDestiny = result.username;
               this.isOpen = false;
             },
 
